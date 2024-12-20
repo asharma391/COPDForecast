@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather-Based COPD Lung Function Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="#calculator" onclick="showPage('calculator')" class="site-title-link">
+            <h1 class="site-title">COPD Weather Impact Calculator</h1>
+        </a>
+        <nav>
+            <a href="#calculator" class="active" onclick="showPage('calculator')">Weather Impact Calculator</a>
+            <a href="#action-plan" onclick="showPage('action-plan')">Action Plan</a>
+            <a href="#resources" onclick="showPage('resources')">Further Resources</a>
+            <a href="#about" onclick="showPage('about')">About</a>
+        </nav>
+    </div>
+
+    <div id="calculator" class="page active">
+        <div class="calculator-container">
+            <h2>COPD Weather Impact Calculator</h2>
+            <div class="study-info">
+                <p>This prediction model is based on a research study conducted by Dr. Nonoyama and colleagues at Ontario Tech University's ACE Facility that studied COPD patients' physiological responses to temperature and humidity changes. The participants' respiratory rate was measured using the Zephyr Bioharness 3.0.</p>
+                <p>Based on the changes in breathing rate observed in different humidity/temperature conditions, the following model was extrapolated.</p>
+                <div class="warning-box">
+                    <p><strong>Important Notice:</strong> This tool is based on an experimental study with 36 trials. The predictions are experimental and should not replace medical advice. Always consult your healthcare provider before making decisions about your COPD management.</p>
+                </div>
+            </div>
+            <p><em>For more information on the science and data behind this model, please refer to the study's research paper. It will be linked on this webpage following its publication.</em></p>
+            <div id="loading" class="loading-container" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading weather data and generating predictions...</p>
+            </div>
+            <button id="predict">Calculate Current Respiratory Rate Impact</button>
+            <div class="results-container">
+                <div id="weather" class="results"></div>
+                <!--<div id="lungFunction" class="results"></div>-->
+                <!--<div id="recommendation" class="results"></div>-->
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="action-plan" class="page">
+        <div class="action-plan-container">
+            <h2>COPD Action Plan</h2>
+            <p class="action-plan-intro">Click on the zone that best describes how you're feeling today:</p>
+            <div class="zone-container">
+                <div class="zone green" onclick="selectZone('green')">
+                    <h3>GREEN Zone: I am doing well today</h3>
+                    <ul class="symptom-list">
+                        <li>I can maintain my usual exercise or activity level</li>
+                        <li>I am coughing no more than usual</li>
+                        <li>I have the usual amount of phlegm/mucus</li>
+                        <li>I am sleeping well</li>
+                        <li>My appetite is good</li>
+                    </ul>
+                </div>
+
+                <div class="zone yellow" onclick="selectZone('yellow')">
+                    <h3>YELLOW Zone: I am having a bad day or a COPD flareup</h3>
+                    <ul class="symptom-list">
+                        <li>I am more breathless than usual</li>
+                        <li>I have less energy for daily activities</li>
+                        <li>I have more phlegm/mucus and/or it's thicker than usual</li>
+                        <li>My ankles are more swollen than usual</li>
+                        <li>I am coughing more than usual</li>
+                        <li>I feel as if I have a "chest cold"</li>
+                        <li>I am not sleeping well, my symptoms keep waking me up</li>
+                        <li>My appetite is not good</li>
+                        <li>My medicine is not helping</li>
+                    </ul>
+                </div>
+
+                <div class="zone red" onclick="selectZone('red')">
+                    <h3>RED Zone: I need urgent medical care</h3>
+                    <ul class="symptom-list">
+                        <li>I have severe shortness of breath even at rest</li>
+                        <li>I'm not able to do any activity because of my breathing</li>
+                        <li>I'm not able to sleep because of my breathing</li>
+                        <li>I have a fever or shaking/chills</li>
+                        <li>I feel confused or very drowsy</li>
+                        <li>I am having chest pains</li>
+                        <li>I am coughing up blood</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="all-actions-container">
+                <div class="actions-grid">
+                    <div class="action-section green" onclick="selectZone('green')">
+                        <h4>GREEN Zone Actions:</h4>
+                        <div class="action-list">
+                            <div class="action-item"><label><input type="checkbox" disabled> Take daily medicines</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Use oxygen as prescribed</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Continue to exercise regularly and follow my diet plan</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Avoid tobacco products and other inhaled irritants</label></div>
+                        </div>
+                    </div>
+
+                    <div class="action-section yellow" onclick="selectZone('yellow')">
+                        <h4>YELLOW Zone Actions:</h4>
+                        <div class="action-list">
+                            <div class="action-item"><label><input type="checkbox" disabled> Continue daily medication</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Use quick relief inhaler at the frequency recommended by your doctor</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Start an oral corticosteroid</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Start an antibiotic</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Use oxygen as prescribed</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Get plenty of rest</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Use pursed-lip breathing</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Avoid irritants</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> Call provider if no improvement</label></div>
+                        </div>
+                    </div>
+
+                    <div class="action-section red" onclick="selectZone('red')">
+                        <h4>RED Zone Actions:</h4>
+                        <div class="action-list">
+                            <div class="action-item"><label><input type="checkbox" disabled> Call 911 or seek immediate medical care</label></div>
+                            <div class="action-item"><label><input type="checkbox" disabled> While getting help, use quick relief inhaler</label></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="attribution">Based on recommendations provided by the Canadian Lung Association.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="resources" class="page">
+        <h2>Further Resources</h2>
+        
+        <div class="resource-card">
+            <h3>Canadian Lung Association Resources</h3>
+            <ul>
+                <li><a href="https://www.lung.ca/copd" target="_blank">COPD: About, Treatment, Management</a></li>
+                <li><a href="https://www.lung.ca/sites/default/files/LungAssociation_COPDHandbook_ENFINAL_0.pdf" target="_blank">A COPD Handbook</a></li>
+                <li><a href="https://www.lung.ca/smoking-vaping/smoking-tobacco" target="_blank">It's never too late to quit smoking</a></li>
+                <li><a href="https://www.smokefreecurious.ca/s/?language=en_US" target="_blank">Smoke-free Curious</a></li>
+            </ul>
+        </div>
+
+        <div class="resource-card">
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="https://www.livingwellwithcopd.com/en/home.html" target="_blank">Living Well with COPD (Respiplus)</a></li>
+                <li><a href="https://csl.cancer.ca/smokershelpline/en" target="_blank">Quit Map (Canadian Cancer Society)</a> - Find in-person, online or phone services in your area to quit smoking or vaping</li>
+            </ul>
+        </div>
+
+        <div class="resource-card">
+            <h3>COPD Management Mobile App</h3>
+            <ul>
+                <li><a href="https://www.copdfoundation.org/Learn-More/The-COPD-Pocket-Consultant-Guide/Healthcare-Provider-Track.aspx" target="_blank">COPD Pocket Consultant Guide App</a> - Facilitates the Global Initiative for Chronic Obstructive Lung Disease (GOLD) recommended approach through a free mobile app.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="about" class="page">
+        <div class="resource-card">
+            <h2>About the Developer</h2>
+            <p>Hi! I'm Arjun Sharma, a Grade 12 student from Canada. Having contributed to Dr. Nonoyama's research project on COPD physiology under temperature and humidity changes, I was interested in developing a practical application of these findings.<br><br>This website is a convenient, mobile-friendly solution for COPD patients to plan their daily outdoor activity based on the data from this research.</p>
+            <p>Email: arjundevensharma@gmail.com</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
