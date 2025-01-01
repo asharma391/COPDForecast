@@ -536,8 +536,35 @@ button:hover {
     opacity: 1;
 }
 
-/* Prevent click events from being blocked by label */
 .action-item label input[type="checkbox"] {
     pointer-events: auto;
     z-index: 1;
-} 
+}
+
+.location-error {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.location-error p {
+    margin: 10px 0;
+}
+
+.location-error ol {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.location-error li {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+.location-error strong {
+    font-size: 1.1em;
+}
