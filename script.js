@@ -235,19 +235,42 @@ async function displayData() {
         try {
             await new Promise((resolve, reject) => {
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(async (pos) => {
-                        const lat = pos.coords.latitude;
-                        const lon = pos.coords.longitude;
+                    navigator.geolocation.getCurrentPosition(
+                        async (pos) => {
+                            const lat = pos.coords.latitude;
+                            const lon = pos.coords.longitude;
 
-                        try {
-                            const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,relative_humidity_2m_max&current_weather=true&timezone=auto&forecast_days=7`);
-                            wData = await r.json();
-                            fData = wData.daily;
-                            resolve();
-                        } catch (e) {
-                            reject(e);
-                        }
-                    }, reject);
+                            try {
+                                const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,relative_humidity_2m_max&current_weather=true&timezone=auto&forecast_days=7`);
+                                wData = await r.json();
+                                fData = wData.daily;
+                                resolve();
+                            } catch (e) {
+                                reject(e);
+                            }
+                        },
+                        (error) => {
+                            if (error.code === error.PERMISSION_DENIED) {
+                                document.getElementById('loading').style.display = 'none';
+                                document.getElementById('predict').style.display = 'block';
+                                document.getElementById('weather').innerHTML = `
+                                    <div class="location-error">
+                                        <p><strong>Location Access Required</strong></p>
+                                        <p>Please enable location access to use this calculator. To enable:</p>
+                                        <ol>
+                                            <li>Click the toggle icon to the left of the website URL</li>
+                                            <li>Select "Allow" for location access</li>
+                                            <li>Refresh the page and try again</li>
+                                        </ol>
+                                        <p>We use this data to fetch local weather data for the calculation.</p>
+                                    </div>
+                                `;
+                                document.querySelector('.results-container').classList.add('visible');
+                            }
+                            reject(error);
+                        },
+                        { enableHighAccuracy: false }
+                    );
                 } else {
                     reject(new Error('Geolocation not supported'));
                 }
@@ -255,6 +278,7 @@ async function displayData() {
         } catch (e) {
             console.error('Error:', e);
             document.getElementById('loading').style.display = 'none';
+            document.getElementById('predict').style.display = 'block';
             return;
         }
     }
@@ -291,7 +315,6 @@ function selectZone(z) {
     const ac = document.querySelector('.all-actions-container');
     ac.classList.add('visible');
     
-    // Handle symptom zones
     document.querySelectorAll('.zone').forEach(z => {
         z.classList.add('dimmed');
         z.classList.remove('selected');
@@ -299,7 +322,6 @@ function selectZone(z) {
     document.querySelector(`.zone.${z}`).classList.remove('dimmed');
     document.querySelector(`.zone.${z}`).classList.add('selected');
     
-    // Handle action sections
     document.querySelectorAll('.action-section').forEach(s => {
         s.classList.remove('active');
         s.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -313,7 +335,6 @@ function selectZone(z) {
     });
 }
 
-// Add event listeners for checkbox clicks
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.action-item input[type="checkbox"]').forEach(cb => {
         cb.addEventListener('click', function(e) {
