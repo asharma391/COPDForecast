@@ -137,17 +137,17 @@ function getImpactCat(i){
   if(i>=20) return {
     cls:'impact-severe',
     desc:'<strong>Severe Impact</strong> - Consider staying indoors',
-    activities:'Very light activities recommended e.g. gentle walking, tai chi, stretching, breathing exercises'
+    activities:'Very light activities recommended e.g. gentle walking, tai chi, stretching, breathing exercises.'
   };
   if(i>=5) return {
     cls:'impact-moderate',
     desc:'<strong>Moderate Impact</strong> - Take precautions',
-    activities:'Light to moderate activities recommended e.g. walking, light jogging, yoga, gardening, casual cycling'
+    activities:'Light to moderate activities recommended e.g. walking, light jogging, yoga, gardening, casual cycling.'
   };
   return {
     cls:'impact-normal',
     desc:'<strong>Normal Conditions</strong> - Suitable for regular activity',
-    activities:'Full range of activities recommended e.g. running, cycling, team sports, hiking, intense workouts, outdoor training'
+    activities:'Full range of activities possible e.g. hiking, running, cycling, sports, workouts.'
   };
 }
 
