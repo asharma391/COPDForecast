@@ -26,7 +26,7 @@
                 <p>This prediction model is based on a research study conducted by Dr. Nonoyama and colleagues at Ontario Tech University's ACE Facility that studied COPD patients' physiological responses to temperature and humidity changes. The participants' respiratory rate was measured using the Zephyr Bioharness 3.0.</p>
                 <p>Based on the changes in breathing rate observed in different humidity/temperature conditions, the following model was extrapolated.</p>
                 <div class="warning-box">
-                    <p><strong>Important Notice:</strong> This tool is based on an experimental study with 36 trials. The predictions are experimental and should not replace medical advice. Always consult your healthcare provider before making decisions about your COPD management.</p>
+                    <p><strong>Important Notice:</strong> This tool is based on an experimental study involving 36 participants. The predictions are experimental and should not replace medical advice. Always consult your healthcare provider before making decisions about your COPD management.</p>
                 </div>
             </div>
             <p><em>For more information on the science and data behind this model, please refer to the study's research paper. It will be linked on this webpage following its publication.</em></p>
@@ -162,12 +162,39 @@
     <div id="about" class="page">
         <div class="resource-card">
             <h2>About the Developer</h2>
-            <p>Hi! I'm Arjun Sharma, a Grade 12 student from Canada. Having contributed to Dr. Nonoyama's research project on COPD physiology under temperature and humidity changes, I was interested in developing a practical application of these findings.<br><br>This website is a convenient, mobile-friendly solution that's helped thousands of COPD patients plan their daily outdoor activity based on the data from this research.</p>
+            <p>Hi! I'm Arjun Sharma, a Grade 12 student from Canada. Having contributed to Dr. Nonoyama's research project on COPD physiology under temperature and humidity changes, I was interested in developing a practical application of these findings. Plans for more comprehensive functionality follow the study's publication in the spring.<br><br>This website is a convenient, mobile-friendly solution that's helped thousands of COPD patients plan their daily outdoor activity based on the data from this research.</p>
             <p>Email: arjundevensharma@gmail.com</p>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script id="time-template" type="text/template">
+        <div class="time-tabs">
+            ${times.map((time, index) => `
+                <button class="time-tab ${index === 0 ? 'active' : ''}" data-tab="panel-${index}">
+                    ${time.formattedTime}
+                </button>
+            `).join('')}
+        </div>
+        <div class="time-panels">
+            ${times.map((time, index) => `
+                <div id="panel-${index}" class="time-panel ${index === 0 ? 'active' : ''}">
+                    <div class="stat-card">
+                        <div class="stat-label">Temperature</div>
+                        <div class="stat-value">${time.temperature}°C</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Humidity</div>
+                        <div class="stat-value">${time.humidity}%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Predicted Impact</div>
+                        <div class="stat-value">${time.predictedImpact}</div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    </script>
 </body>
 </html>
