@@ -134,20 +134,20 @@ function createChart(d){
 }
 
 function getImpactCat(i){
-  if(i>=20) return {
+  if(i>=25) return {
     cls:'impact-severe',
     desc:'<strong>Severe Impact</strong> - Consider staying indoors',
-    activities:'Very light activities recommended e.g. gentle walking, tai chi, stretching, breathing exercises.'
+    activities:'Very light activities recommended e.g. gentle walking, tai chi, stretching, breathing exercises'
   };
   if(i>=5) return {
     cls:'impact-moderate',
     desc:'<strong>Moderate Impact</strong> - Take precautions',
-    activities:'Light to moderate activities recommended e.g. walking, light jogging, yoga, gardening, casual cycling.'
+    activities:'Light to moderate activities recommended e.g. walking, light jogging, yoga, gardening, casual cycling'
   };
   return {
     cls:'impact-normal',
     desc:'<strong>Normal Conditions</strong> - Suitable for regular activity',
-    activities:'Full range of activities possible e.g. hiking, running, cycling, sports, workouts.'
+    activities:'Full range of activities recommended e.g. running, cycling, team sports, hiking, intense workouts, outdoor training'
   };
 }
 
@@ -263,18 +263,17 @@ Impact: +${h.impact.toFixed(1)}%">
           </div>
           <div class="legend-item">
             <span class="legend-color" style="background-color:#ffd700"></span>
-            <span>Moderate (+5% to +20%)</span>
+            <span>Moderate (+5% to +25%)</span>
           </div>
           <div class="legend-item">
             <span class="legend-color" style="background-color:#ff4d4d"></span>
-            <span>Severe (≥ +20%)</span>
+            <span>Severe (≥ +25%)</span>
           </div>
         </div>
         <div class="optimal-periods">
-          <h4>Best Time for Outdoor Activities</h4>
+          <h4>Recommended Time${bP.length>1?'s':''} for Outdoor Activities</h4>
           <div class="best-period">
             <div class="time-details">
-              <strong>Recommended Time${bP.length>1?'s':''}:</strong>
               ${bP.map((pp,idx)=>`
                 <span class="time-slot"
                   data-tooltip="Temperature: ${pp.temp.toFixed(1)}°C
@@ -314,10 +313,10 @@ function getGradientColor(i){
   if(i<=5){
     const x=i/5; return `hsl(120,100%,${50+(x*20)}%)`;
   }
-  if(i<=20){
-    const x=(i-5)/15; return `hsl(${60-(60*x)},100%,50%)`;
+  if(i<=25){
+    const x=(i-5)/20; return `hsl(${60-(60*x)},100%,50%)`;
   }
-  const x=Math.min((i-20)/20,1); return `hsl(0,100%,${50-(x*20)}%)`;
+  const x=Math.min((i-25)/20,1); return `hsl(0,100%,${50-(x*20)}%)`;
 }
 
 function showWeatherImpact(){
@@ -331,8 +330,8 @@ function showWeatherImpact(){
     </div>
     <div class="impact-scale">
       <span class="impact-category impact-normal">Normal (≤ +5%)</span>
-      <span class="impact-category impact-moderate">Moderate (+5% to +20%)</span>
-      <span class="impact-category impact-severe">Severe (≥ +20%)</span>
+      <span class="impact-category impact-moderate">Moderate (+5% to +25%)</span>
+      <span class="impact-category impact-severe">Severe (≥ +25%)</span>
     </div>
     <div class="impact-title">${inf.desc}</div>
     <div class="impact-description">Current Weather: ${tmp}°C, ${hm}% Humidity</div>
