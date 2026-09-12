@@ -4,6 +4,8 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { weather } from '../support/weather-fixture';
 
+const siteUrl = process.env.PACKAGED_SITE_URL ?? '/COPDForecast/';
+
 async function prepare(page: Page, mode: 'ok' | 'denied' | 'offline' = 'ok') {
   await page.clock.setFixedTime(new Date('2026-09-12T16:00:00-04:00'));
   await page.addInitScript((denied) => {
@@ -99,7 +101,7 @@ test('all pages and action-plan interactions match the original', async ({
   await Promise.all([prepare(legacy), prepare(page)]);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await Promise.all([legacy.goto('/baseline/'), page.goto('/COPDForecast/')]);
+  await Promise.all([legacy.goto('/baseline/'), page.goto(siteUrl)]);
   for (const section of ['calculator', 'action-plan', 'resources', 'about']) {
     for (const target of [legacy, page])
       await target.locator(`nav a[href="#${section}"]`).press('Enter');
@@ -136,7 +138,7 @@ test('weather, planner and real Chart.js rendering match the original', async ({
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   for (const target of [legacy, page]) {
-    await target.goto(target === legacy ? '/baseline/' : '/COPDForecast/');
+    await target.goto(target === legacy ? '/baseline/' : siteUrl);
     await target.locator('#predict').click();
     await expect(target.locator('#forecastChart')).toBeVisible();
     await expect(target.locator('.time-block')).toHaveCount(24);
@@ -156,7 +158,7 @@ for (const mode of ['denied', 'offline'] as const) {
     const legacy = await context.newPage();
     await Promise.all([prepare(legacy, mode), prepare(page, mode)]);
     for (const target of [legacy, page]) {
-      await target.goto(target === legacy ? '/baseline/' : '/COPDForecast/');
+      await target.goto(target === legacy ? '/baseline/' : siteUrl);
       await target.locator('#predict').click();
       await expect(target.locator('#predict')).toBeVisible();
       await expect(target.locator('#loading')).toBeHidden();

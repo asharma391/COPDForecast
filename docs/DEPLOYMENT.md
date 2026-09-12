@@ -19,3 +19,5 @@ Do not serve the source checkout directly as production: browsers cannot execute
 ## Recovery
 
 Revert a faulty packaging commit while retaining the build configuration and rerun CI, or redeploy a previously successful Pages artifact from GitHub. To restore the original static implementation completely, restore the three original site files from the baseline commit and switch Pages back to deployment from `main` at `/`. Never change the deployment source to branch mode while `index.html` still references TypeScript source.
+
+For a post-deployment browser comparison against the original, build locally and set `PACKAGED_SITE_URL=https://asharma391.github.io/COPDForecast/` when running `npm run test:e2e`. This uses deterministic weather/location fixtures against the live HTML, JavaScript and CSS.
