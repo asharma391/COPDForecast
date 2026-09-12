@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather-Based COPD Lung Function Predictor</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/src/styles/site.css">
 </head>
 <body>
     <div class="top-bar">
@@ -167,8 +167,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="/src/main.ts"></script>
     <script id="time-template" type="text/template">
         <div class="time-tabs">
             ${times.map((time, index) => `
