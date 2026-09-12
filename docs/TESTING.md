@@ -16,6 +16,8 @@ Tests load original HTML, JavaScript and CSS from Git history, rather than keepi
 
 Playwright serves the original and the production bundle side by side on localhost. Both receive the same fixed clock, location, weather fixture and Chart.js version. For each browser/viewport configuration it compares all four pages, all three action-plan zones, weather results, the hourly planner, the real chart, denied location and offline requests. Screenshots are compared directly on the same machine with zero changed pixels permitted after pixelmatch's anti-aliasing tolerance. Failed comparisons attach both screenshots and a visual diff to the HTML report. This avoids committing operating-system-specific screenshot baselines.
 
+Navigation uses keyboard activation to reach links that the original mobile navigation overflow can obscure. Zone and checkbox interactions use pointer actions.
+
 The matrix includes desktop Chromium, mobile Chromium, desktop Firefox and mobile WebKit. These exercise browser engines and viewport layouts; they do not claim validation on every physical device. Checks for client exceptions cover normal navigation, action-plan and calculation flows.
 
 The tests intentionally do not redefine pre-existing product behavior documented in [ARCHITECTURE.md](ARCHITECTURE.md).

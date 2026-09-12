@@ -102,7 +102,7 @@ test('all pages and action-plan interactions match the original', async ({
   await Promise.all([legacy.goto('/baseline/'), page.goto('/COPDForecast/')]);
   for (const section of ['calculator', 'action-plan', 'resources', 'about']) {
     for (const target of [legacy, page])
-      await target.locator(`nav a[href="#${section}"]`).click();
+      await target.locator(`nav a[href="#${section}"]`).press('Enter');
     await expect(page.locator('.page.active')).toHaveAttribute('id', section);
     expect(await page.locator(`#${section}`).innerText()).toBe(
       await legacy.locator(`#${section}`).innerText(),
@@ -110,7 +110,7 @@ test('all pages and action-plan interactions match the original', async ({
     await compareScreenshots(legacy, page, section, info);
   }
   for (const target of [legacy, page])
-    await target.locator('nav a[href="#action-plan"]').click();
+    await target.locator('nav a[href="#action-plan"]').press('Enter');
   for (const zone of ['green', 'yellow', 'red']) {
     for (const target of [legacy, page]) {
       await target.locator(`.zone.${zone}`).click();
