@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/asharma391/COPDForecast.git"
+    "url": "git+https://github.com/asharma391/copd-forecast.git"
   },
   "engines": {
     "node": ">=22.12.0"

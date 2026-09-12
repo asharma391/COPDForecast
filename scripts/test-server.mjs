@@ -16,6 +16,7 @@ const types = {
   '.css': 'text/css',
 };
 const root = resolve('dist');
+const prefixes = ['/preview/renamed/', '/copd-forecast/'];
 createServer(async (req, res) => {
   try {
     const path = decodeURIComponent(
@@ -27,8 +28,9 @@ createServer(async (req, res) => {
       filename = path.slice('/baseline/'.length) || 'index.html';
       body = legacy.get(filename);
       if (!body) throw new Error('not found');
-    } else if (path.startsWith('/COPDForecast/')) {
-      filename = path.slice('/COPDForecast/'.length) || 'index.html';
+    } else if (prefixes.some((prefix) => path.startsWith(prefix))) {
+      const prefix = prefixes.find((prefix) => path.startsWith(prefix));
+      filename = path.slice(prefix.length) || 'index.html';
       const full = resolve(root, filename);
       if (!full.startsWith(root + sep)) throw new Error('not found');
       body = await readFile(full);

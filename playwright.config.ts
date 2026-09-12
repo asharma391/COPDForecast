@@ -47,7 +47,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'node scripts/test-server.mjs',
-    url: 'http://127.0.0.1:4173/COPDForecast/',
+    url: 'http://127.0.0.1:4173/copd-forecast/',
     reuseExistingServer: !process.env.CI,
   },
 });

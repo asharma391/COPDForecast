@@ -4,7 +4,7 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { weather } from '../support/weather-fixture';
 
-const siteUrl = process.env.PACKAGED_SITE_URL ?? '/COPDForecast/';
+const siteUrl = process.env.PACKAGED_SITE_URL ?? '/copd-forecast/';
 
 async function prepare(page: Page, mode: 'ok' | 'denied' | 'offline' = 'ok') {
   await page.clock.setFixedTime(new Date('2026-09-12T16:00:00-04:00'));
@@ -168,3 +168,32 @@ for (const mode of ['denied', 'offline'] as const) {
     await compareScreenshots(legacy, page, mode, info);
   });
 }
+
+test('built assets load under renamed and nested repository paths', async ({
+  page,
+}) => {
+  await prepare(page);
+  for (const prefix of ['/copd-forecast/', '/preview/renamed/']) {
+    await page.goto(prefix);
+    const stylesheet = await page
+      .locator('link[rel="stylesheet"]')
+      .getAttribute('href');
+    const script = await page
+      .locator('script[type="module"]')
+      .getAttribute('src');
+    for (const asset of [stylesheet, script]) {
+      expect(asset).toMatch(/^\.\/assets\//);
+      const url = new URL(asset!, page.url());
+      expect(url.pathname).toMatch(new RegExp(`^${prefix}assets/`));
+      const response = await page.request.get(url.href);
+      expect(response.status()).toBe(200);
+    }
+    await expect(page.locator('.top-bar')).toHaveCSS(
+      'background-color',
+      'rgb(43, 50, 69)',
+    );
+    await page.locator('nav a[href="#about"]').press('Enter');
+    await expect(page.locator('#about')).toBeVisible();
+    await expect(page.locator('#calculator')).toBeHidden();
+  }
+});

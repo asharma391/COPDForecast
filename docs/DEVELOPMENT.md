@@ -7,7 +7,7 @@ npm ci
 npm run dev
 ```
 
-Open the local URL printed by Vite, under `/COPDForecast/`. Browser geolocation works on localhost or HTTPS. Weather requests go directly to Open-Meteo.
+Open the local URL printed by Vite. Browser geolocation works on localhost or HTTPS. Weather requests go directly to Open-Meteo.
 
 ## Commands
 

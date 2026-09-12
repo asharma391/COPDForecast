@@ -12,6 +12,10 @@ Tests load original HTML, JavaScript and CSS from Git history, rather than keepi
 - Impact thresholds, descriptions and activity recommendations compared at category boundaries.
 - Exact weather request URL and network-failure propagation.
 
+## Deployment portability
+
+A browser regression check serves the same build under `/copd-forecast/` and `/preview/renamed/`, verifies that stylesheet and module requests succeed within each prefix, and checks styling and navigation. This catches asset URLs tied to an obsolete repository name.
+
 ## Browser parity
 
 Playwright serves the original and the production bundle side by side on localhost. Both receive the same fixed clock, location, weather fixture and Chart.js version. For each browser/viewport configuration it compares all four pages, all three action-plan zones, weather results, the hourly planner, the real chart, denied location and offline requests. Screenshots are compared directly on the same machine with zero changed pixels permitted after pixelmatch's anti-aliasing tolerance. Failed comparisons attach both screenshots and a visual diff to the HTML report. This avoids committing operating-system-specific screenshot baselines.
