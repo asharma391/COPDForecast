@@ -29,9 +29,7 @@ export default defineConfig({
         browserName: 'chromium',
         channel: process.env.PLAYWRIGHT_CHROMIUM_CHANNEL,
         viewport: { width: 390, height: 844 },
-        isMobile: true,
         deviceScaleFactor: 1,
-        hasTouch: true,
       },
     },
     {
@@ -43,9 +41,7 @@ export default defineConfig({
       use: {
         browserName: 'webkit',
         viewport: { width: 390, height: 844 },
-        isMobile: true,
         deviceScaleFactor: 1,
-        hasTouch: true,
       },
     },
   ],

@@ -33,3 +33,5 @@ npm run check
 Linux CI uses `npx playwright install --with-deps chromium firefox webkit`. Regression tests read the original files from Git commit `d3c2c072a93fe5911aa83a7cf5790abb4fac432c`; use a full clone, or `git fetch --unshallow` for a shallow checkout. Build before running browser tests independently. Tests require port 4173 and stub weather and geolocation, so they need neither live API access nor location permission.
 
 The unchanged README remains the original project introduction. Contributor and architecture details live in `docs/`.
+
+To use an existing Chrome installation for the Chromium viewport checks, run `PLAYWRIGHT_CHROMIUM_CHANNEL=chrome npx playwright test --project=desktop-chromium --project=mobile-chromium`. CI uses the pinned Playwright browser builds.
